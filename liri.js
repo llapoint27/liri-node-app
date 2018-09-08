@@ -10,8 +10,9 @@ var request = require("request");
 //npm module used to read random.txt file
 var fs = require("fs");
 //npm module to access Spotify API
-var spotify = require("spotify");
-var spotify = new Spotify(keys.spotify);
+var spotify = require("node-spotify-api");
+
+// var spotify = new Spotify(keys.spotify);
 
 //processes the input from the command line
 var action = process.argv[2];
@@ -19,23 +20,27 @@ var parameter = process.argv[3];
 
 switch (action) {
   case "concert-this":
-    concertThis();
+    concertThis(parameter);
     break;
 
   case "spotify-this-song":
-    spotify();
+    spotify(parameter);
     break;
 
   case "movie-this":
-    movieThis();
+    movieThis(parameter);
     break;
 
   case "do-what-it-says":
-    doWhatItSays();
+    doWhatItSays(parameter);
     break;
 
-
-  default: console.log("\n" + "please type one of the following commands:" + "\n" + "\n" + "oncert-this: 'any band'" + "\n" + "spotify-this-song: 'any song'" + "\n" + "movie-this: 'any movie'" + "\n" + "do-what-it-says");
+//if user does not input any command, default instructions will run
+  default: console.log(
+    "\n" + "please type one of the following commands:" + "\n" + "\n" + "concert-this: 'any band'" + "\n" +
+     "spotify-this-song: 'any song'" + "\n" + 
+     "movie-this: 'any movie'" + "\n" + 
+     "do-what-it-says");
 
 }
 
