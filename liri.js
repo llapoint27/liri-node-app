@@ -14,7 +14,6 @@ var spotify = require("node-spotify-api");
 
 // var spotify = new Spotify(keys.spotify);
 
-
 switch (action) {
   case "concert-this":
     concertThis(parameter);
@@ -41,67 +40,73 @@ switch (action) {
 
 }
 
+
+
+// function concertThis() {
+//   if (action === "concert-this"){
+
+//     var bandName = "";
+
+//     for (var i = 3; i < process.argv.length; i++) {
+
+//     bandName =+ process.argv[i];
+
+//     console.log(bandName);
+//     }
+
+//   } else {bandName = parameter};
+// }
+
+// var URL = "https://rest.bandsintown.com/artists/" + bandName + "/events?app_id=codingbootcamp";
+
+// request(URL, function(err, response, body){
+
+//   if (!err && response.statusCode === 200){
+
+//     var data = JSON.parse(body);
+
+//     console.log(data);
+
+//     var output = 
+
+//     `
+//     name:
+//     venue:
+//     date:
+
+//     `
+//   }
+
+// })
+
 var action = process.argv[2];
 var parameter = process.argv[3];
 
-function concertThis(parameter) {
+var band = new Band();
 
-  if (action === "concert-this"){
+if (action === 'concert-this') {
 
-    var bandName = "";
+  console.log("searching for a band");
+  band.concertThis(parameter);
 
-    //does this only work if bandName is an object?
-    for (var i = 3; i < parameter.length; i++) {
+}
 
-    bandName =+ parameter[i];
+this.concertThis = function(bandName) {
 
-    console.log(bandName);
-    }
+var URL = "https://rest.bandsintown.com/artists/" + bandName + "/events?app_id=codingbootcamp";
 
-  } else {bandName = parameter};
+request(URL, function(err, response, body){
 
+  if (!err && response.statusCode === 200){
+    var data = JSON.parse(body);
+    console.log(data);
 
-var queryURL = "https://rest.bandsintown.com/artists/" + bandName + "/events?app_id=codingbootcamp";
-
-console.log(queryURL);
-
-// This line is just to help us debug against the actual URL.
-console.log(queryUrl);
-
-request(queryUrl, function(error, response, body) {
-
-  // If the request is successful
-  if (!error && response.statusCode === 200) {
-
-    // Parse the body of the site and recover just the imdbRating
-    // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
-    console.log("Release Year: " + JSON.parse(body).venue.name);
   }
-});
+
+})
 
 
-console.log(URL);
-
-request(URL, function(error, response, body) {
-
-  var jsonData = JSON.parse(body);
-
-  console.log(jsonData);
-
-  var output =
-  `
-  //data in here
-  `
-
-  });
-
-
-
-
-
-
-
-
+}
 
 
 
