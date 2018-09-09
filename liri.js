@@ -16,7 +16,7 @@ var spotify = require("node-spotify-api");
 
 switch (action) {
   case "concert-this":
-    concertThis(parameter);
+    concertThis();
     break;
 
   case "spotify-this-song":
@@ -31,82 +31,90 @@ switch (action) {
     doWhatItSays(parameter);
     break;
 
-//if user does not input any command, default instructions will run
-  default: console.log(
-    "\n" + "please type one of the following commands:" + "\n" + "\n" + "concert-this: 'any band'" + "\n" +
-     "spotify-this-song: 'any song'" + "\n" + 
-     "movie-this: 'any movie'" + "\n" + 
-     "do-what-it-says");
+};
 
-}
+  //if user does not input any command, default instructions will run
+//   default: console.log(
+//     "\n" + "please type one of the following commands:" + "\n" + "\n" + "concert-this: 'any band'" + "\n" +
+//     "spotify-this-song: 'any song'" + "\n" +
+//     "movie-this: 'any movie'" + "\n" +
+//     "do-what-it-says");
 
-
-
-// function concertThis() {
-//   if (action === "concert-this"){
-
-//     var bandName = "";
-
-//     for (var i = 3; i < process.argv.length; i++) {
-
-//     bandName =+ process.argv[i];
-
-//     console.log(bandName);
-//     }
-
-//   } else {bandName = parameter};
 // }
-
-// var URL = "https://rest.bandsintown.com/artists/" + bandName + "/events?app_id=codingbootcamp";
-
-// request(URL, function(err, response, body){
-
-//   if (!err && response.statusCode === 200){
-
-//     var data = JSON.parse(body);
-
-//     console.log(data);
-
-//     var output = 
-
-//     `
-//     name:
-//     venue:
-//     date:
-
-//     `
-//   }
-
-// })
 
 var action = process.argv[2];
 var parameter = process.argv[3];
 
-var band = new Band();
 
-if (action === 'concert-this') {
+function concertThis(parameter) {
 
-  console.log("searching for a band");
-  band.concertThis(parameter);
+  if (action === "concert-this") {
 
-}
+    var bandName = "";
 
-this.concertThis = function(bandName) {
+    for (var i = 3; i < process.argv.length; i++) {
 
-var URL = "https://rest.bandsintown.com/artists/" + bandName + "/events?app_id=codingbootcamp";
+      bandName = + process.argv[i];
+    }
+    console.log(bandName);
+    
+  } else { 
 
-request(URL, function(err, response, body){
+    bandName = parameter;
 
-  if (!err && response.statusCode === 200){
+  };
+
+  var URL = "https://rest.bandsintown.com/artists/" + bandName + "/events?app_id=codingbootcamp";
+
+  console.log(URL);
+
+request(URL, function (err, response, body) {
+
+  if (!err && response.statusCode === 200) {
+
     var data = JSON.parse(body);
+
     console.log(data);
 
+    // var output =
+
+    //   `
+    // name:
+    // venue:
+    // date:
+    // `
   }
 
-})
+});
+}
+
+function spotify() {
+
+  var searchSong;
+
+  if (action === undefined) {
+    searchSong = "The Sign ace of base";
+  } else {
+    parameter = searchSong;
+  }
+
+  spotify.search({
+    type: "track",
+    query: parameter,
+    limit: 1
+  }, function (err, data){
+    if (err) {
+      return console.log("Sorry, something went wrong: " + err);
+    }
+    
+  }
+)
+
+
+
+
+
+
 
 
 }
-
-
-
