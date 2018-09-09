@@ -10,17 +10,26 @@ var request = require("request");
 //npm module used to read random.txt file
 var fs = require("fs");
 //npm module to access Spotify API
-var spotify = require("node-spotify-api");
+var Spotify = require("node-spotify-api");
+var spotify = new Spotify({
+  id: keys.spotify.id,
+  secret: keys.spotify.secret
+});
 
 // var spotify = new Spotify(keys.spotify);
-
+var action = process.argv[2];
+var parameter = process.argv.slice(3).join(' ');
+console.log(parameter);
+//Switch statement in a functoin where you can pass in an action and it will take care of rest.
+whatAreWeDoing(action, parameter);
+function whatAreWeDoing(action, parameter) {
 switch (action) {
   case "concert-this":
-    concertThis();
+    concertThis(parameter);
     break;
 
   case "spotify-this-song":
-    spotify(parameter);
+    spotifyThis(parameter);
     break;
 
   case "movie-this":
@@ -30,10 +39,14 @@ switch (action) {
   case "do-what-it-says":
     doWhatItSays(parameter);
     break;
+    default: 
+    console.log('Command not supported');
+    break;
 
 };
+}
 
-  //if user does not input any command, default instructions will run
+//if user does not input any command, default instructions will run
 //   default: console.log(
 //     "\n" + "please type one of the following commands:" + "\n" + "\n" + "concert-this: 'any band'" + "\n" +
 //     "spotify-this-song: 'any song'" + "\n" +
@@ -42,73 +55,54 @@ switch (action) {
 
 // }
 
-var action = process.argv[2];
-var parameter = process.argv[3];
+
 
 
 function concertThis(parameter) {
+  
 
-  if (action === "concert-this") {
-
-    var bandName = "";
-
-    for (var i = 3; i < process.argv.length; i++) {
-
-      bandName = + process.argv[i];
-    }
-    console.log(bandName);
-    
-  } else { 
-
-    bandName = parameter;
-
-  };
-
-  var URL = "https://rest.bandsintown.com/artists/" + bandName + "/events?app_id=codingbootcamp";
+  var URL = "https://rest.bandsintown.com/artists/" + parameter + "/events?app_id=codingbootcamp";
 
   console.log(URL);
+  
+  request(URL, function (err, response, body) {
 
-request(URL, function (err, response, body) {
+    if (!err && response.statusCode === 200) {
 
-  if (!err && response.statusCode === 200) {
+      var data = JSON.parse(body);
 
-    var data = JSON.parse(body);
+      console.log(data);
 
-    console.log(data);
+      // var output =
 
-    // var output =
+      //   `
+      // name:
+      // venue:
+      // date:
+      // `
+    }
 
-    //   `
-    // name:
-    // venue:
-    // date:
-    // `
-  }
-
-});
+  });
 }
 
-function spotify() {
+function spotifyThis(searchSong) {
 
-  var searchSong;
 
-  if (action === undefined) {
-    searchSong = "The Sign ace of base";
-  } else {
-    parameter = searchSong;
-  }
+ 
 
   spotify.search({
     type: "track",
-    query: parameter,
+    query: searchSong || "I Saw The Sign",
     limit: 1
-  }, function (err, data){
+  }, function (err, data) {
     if (err) {
       return console.log("Sorry, something went wrong: " + err);
+    } else {
+
+      console.log(data.tracks.items[0]);
     }
-    
   }
-)
+  )
 
 
 
@@ -117,4 +111,21 @@ function spotify() {
 
 
 
+}
+
+function doWhatItSays() {
+  fs.readFile('random.txt', 'utf8', function(err, data) {
+    if(err) {
+      console.error(err);
+    }
+    else {
+      console.log(data);
+      console.log(data.split(',')[0]);
+      var song = data.split(',')[1];
+      console.log(song);
+      console.log(song.split().pop());
+      console.log(song.split().unShift());
+
+    }
+  });
 }
