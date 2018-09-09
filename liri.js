@@ -16,79 +16,72 @@ var spotify = new Spotify({
   secret: keys.spotify.secret
 });
 
-// var spotify = new Spotify(keys.spotify);
 var action = process.argv[2];
+
 var parameter = process.argv.slice(3).join(' ');
-console.log(parameter);
-//Switch statement in a functoin where you can pass in an action and it will take care of rest.
+
+//Switch statement in a function where you can pass in an action and it will take care of rest.
 whatAreWeDoing(action, parameter);
+
 function whatAreWeDoing(action, parameter) {
-switch (action) {
-  case "concert-this":
-    concertThis(parameter);
-    break;
+  switch (action) {
+    case "concert-this":
+      concertThis(parameter);
+      break;
 
-  case "spotify-this-song":
-    spotifyThis(parameter);
-    break;
+    case "spotify-this-song":
+      spotifyThis(parameter);
+      break;
 
-  case "movie-this":
-    movieThis(parameter);
-    break;
+    case "movie-this":
+      movieThis(parameter);
+      break;
 
-  case "do-what-it-says":
-    doWhatItSays(parameter);
-    break;
-    default: 
-    console.log('Command not supported');
-    break;
+    case "do-what-it-says":
+      doWhatItSays(parameter);
+      break;
 
-};
+    //if user does not input any command, default instructions will run
+    default: console.log(
+      "\n" + "please type one of the following commands:" + "\n" + "\n" + "concert-this: 'any band'" + "\n" +
+      "spotify-this-song: 'any song'" + "\n" +
+      "movie-this: 'any movie'" + "\n" +
+      "do-what-it-says");
+      break;
+
+  };
 }
 
-//if user does not input any command, default instructions will run
-//   default: console.log(
-//     "\n" + "please type one of the following commands:" + "\n" + "\n" + "concert-this: 'any band'" + "\n" +
-//     "spotify-this-song: 'any song'" + "\n" +
-//     "movie-this: 'any movie'" + "\n" +
-//     "do-what-it-says");
-
-// }
-
-
-
-
 function concertThis(parameter) {
-  
+
 
   var URL = "https://rest.bandsintown.com/artists/" + parameter + "/events?app_id=codingbootcamp";
 
-  console.log(URL);
-  
   request(URL, function (err, response, body) {
 
     if (!err && response.statusCode === 200) {
 
       var data = JSON.parse(body);
 
-      console.log(data);
+      var output =
+        `
+      Concert Info:  
+      Venue Name: ${data[0].venue.name}
+      Location: ${data[0].venue.city}
+      Date: ${moment(data[0].datetime).format('L')}
+      \n------------------------------------------\n\n
+      `
 
-      // var output =
-
-      //   `
-      // name:
-      // venue:
-      // date:
-      // `
+      fs.appendFile("log.txt", output, function (err) {
+        if (err) throw err;
+        console.log(output);
+      });
     }
 
   });
 }
 
 function spotifyThis(searchSong) {
-
-
- 
 
   spotify.search({
     type: "track",
@@ -97,25 +90,79 @@ function spotifyThis(searchSong) {
   }, function (err, data) {
     if (err) {
       return console.log("Sorry, something went wrong: " + err);
-    } else {
+      
+    }
 
-      console.log(data.tracks.items[0]);
+    else {
+
+      trackdata = data.tracks.items[0];
+
+      var output =
+      `
+      Song Track Info:
+      Song Name: ${trackdata.name}
+      Artist: ${trackdata.album.artists[0].name}
+      Song Preview Link: ${trackdata.preview_url}
+      Album: ${trackdata.album.name}
+      \n------------------------------------------\n\n
+      `
+
+      fs.appendFile("log.txt", output, function (err) {
+        if (err) throw err;
+        console.log(output);
+      });
+
     }
   }
   )
-
-
-
-
-
-
-
-
 }
 
+function movieThis(parameter) {
+
+
+  if (parameter === undefined) {
+     
+  }
+
+  var URL = "http://www.omdbapi.com/?t=" + parameter + "&y=&plot=short&apikey=trilogy";
+  console.log(URL);
+  request(URL, function (err, response, body) {
+
+    if (!err && response.statusCode === 200) {
+
+      var data = JSON.parse(body);
+
+
+
+      var output =
+      
+      `
+      Movie Info:
+      Movie Title: ${data.Title}
+      Release Year: ${data.Year}
+      IMDB Rating: ${data.imbdRating}
+      Rotten Tomatoes Rating: ${data}
+      Country: ${data.Country}
+      Language: ${data.Language}
+      Plot: ${data.Plot}
+      Actors: ${data.Actors}
+      \n------------------------------------------\n\n
+      `
+
+      fs.appendFile("log.txt", output, function (err) {
+        if (err) throw err;
+        console.log(output);
+      });
+    }
+
+  });
+}
+
+
+
 function doWhatItSays() {
-  fs.readFile('random.txt', 'utf8', function(err, data) {
-    if(err) {
+  fs.readFile('random.txt', 'utf8', function (err, data) {
+    if (err) {
       console.error(err);
     }
     else {
