@@ -14,9 +14,6 @@ var spotify = require("node-spotify-api");
 
 // var spotify = new Spotify(keys.spotify);
 
-//processes the input from the command line
-var action = process.argv[2];
-var parameter = process.argv[3];
 
 switch (action) {
   case "concert-this":
@@ -44,11 +41,63 @@ switch (action) {
 
 }
 
+var action = process.argv[2];
+var parameter = process.argv[3];
+
+function concertThis(parameter) {
+
+  if (action === "concert-this"){
+
+    var bandName = "";
+
+    //does this only work if bandName is an object?
+    for (var i = 3; i < parameter.length; i++) {
+
+    bandName =+ parameter[i];
+
+    console.log(bandName);
+    }
+
+  } else {bandName = parameter};
 
 
-function concertThis() {
+var queryURL = "https://rest.bandsintown.com/artists/" + bandName + "/events?app_id=codingbootcamp";
 
-}
+console.log(queryURL);
+
+// This line is just to help us debug against the actual URL.
+console.log(queryUrl);
+
+request(queryUrl, function(error, response, body) {
+
+  // If the request is successful
+  if (!error && response.statusCode === 200) {
+
+    // Parse the body of the site and recover just the imdbRating
+    // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+    console.log("Release Year: " + JSON.parse(body).venue.name);
+  }
+});
+
+
+console.log(URL);
+
+request(URL, function(error, response, body) {
+
+  var jsonData = JSON.parse(body);
+
+  console.log(jsonData);
+
+  var output =
+  `
+  //data in here
+  `
+
+  });
+
+
+
+
 
 
 
