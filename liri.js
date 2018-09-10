@@ -60,7 +60,7 @@ function concertThis(parameter) {
 
       var output =
         `
-      Concert Info:  
+      \n---------------Search Result---------------\n\n
       Venue Name: ${data[0].venue.name}
       Location: ${data[0].venue.city}
       Date: ${moment(data[0].datetime).format('L')}
@@ -94,7 +94,7 @@ function spotifyThis(searchSong) {
 
       var output =
       `
-      Song Track Info:
+      \n---------------Search Result---------------\n\n
       Song Name: ${trackdata.name}
       Artist: ${trackdata.album.artists[0].name}
       Song Preview Link: ${trackdata.preview_url}
@@ -133,7 +133,7 @@ function movieThis(parameter) {
       var output =
       
       `
-      Movie Info:
+      \n---------------Search Result---------------\n\n
       Movie Title: ${data.Title}
       Release Year: ${data.Year}
       IMDB Rating: ${data.Ratings[0].Value}
