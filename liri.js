@@ -46,7 +46,6 @@ function whatAreWeDoing(action, parameter) {
   };
 }
 
-//'venue' is causing issue
 function concertThis(parameter) {
 
 
