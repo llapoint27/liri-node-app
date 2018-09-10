@@ -53,10 +53,12 @@ function concertThis(parameter) {
   var URL = "https://rest.bandsintown.com/artists/" + parameter + "/events?app_id=codingbootcamp";
 
   request(URL, function (err, response, body) {
+    console.log(body);
 
     if (!err && response.statusCode === 200) {
 
       var data = JSON.parse(body);
+ 
 
       var output =
         `
@@ -112,46 +114,84 @@ function spotifyThis(searchSong) {
   )
 }
 
-//default to "mr.nobody" is not functioning correctly
+function handleRequest(body) {
+
+          var data = JSON.parse(body);
+    
+          var output =
+          
+          `
+          \n---------------Search Result---------------\n\n
+          Movie Title: ${data.Title}
+          Release Year: ${data.Year}
+          IMDB Rating: ${data.Ratings[0].Value}
+          Rotten Tomatoes Rating: ${data.Ratings[1].Value}
+          Country: ${data.Country}
+          Language: ${data.Language}
+          Plot: ${data.Plot}
+          Actors: ${data.Actors}
+          \n------------------------------------------\n\n
+          `
+    
+          fs.appendFile("log.txt", output, function (err) {
+            if (err) throw err;
+            console.log(output);
+          });
+}
+
 function movieThis(parameter) {
 
-  //does not work
-  var findMovie;
-  if (parameter === undefined) {
-    findMovie = "Mr. Nobody";
-  } else {
-    findMovie = parameter;
-  };
+console.log(parameter);
+  var defaultMovie = "Mr.Nobody";
+
+  var findMovie = parameter;
+
+  if (findMovie) {
 
   var URL = "http://www.omdbapi.com/?t=" + findMovie + "&y=&plot=short&apikey=trilogy";
-  console.log(URL);
+} else {
+  var URL = "http://www.omdbapi.com/?t=" + defaultMovie + "&y=&plot=short&apikey=trilogy";
+}
+
+
   request(URL, function (err, response, body) {
+    console.log(body);
 
-    if (!err && response.statusCode === 200) {
-
-      var data = JSON.parse(body);
-
-      var output =
+    if (!err && response.statusCode === 200 && !body.Error) {
       
-      `
-      \n---------------Search Result---------------\n\n
-      Movie Title: ${data.Title}
-      Release Year: ${data.Year}
-      IMDB Rating: ${data.Ratings[0].Value}
-      Rotten Tomatoes Rating: ${data.Ratings[1].Value}
-      Country: ${data.Country}
-      Language: ${data.Language}
-      Plot: ${data.Plot}
-      Actors: ${data.Actors}
-      \n------------------------------------------\n\n
-      `
+      handleRequest(body)
 
-      fs.appendFile("log.txt", output, function (err) {
-        if (err) throw err;
-        console.log(output);
+      // var data = JSON.parse(body);
+
+      // var output =
+      
+      // `
+      // \n---------------Search Result---------------\n\n
+      // Movie Title: ${data.Title}
+      // Release Year: ${data.Year}
+      // IMDB Rating: ${data.Ratings[0].Value}
+      // Rotten Tomatoes Rating: ${data.Ratings[1].Value}
+      // Country: ${data.Country}
+      // Language: ${data.Language}
+      // Plot: ${data.Plot}
+      // Actors: ${data.Actors}
+      // \n------------------------------------------\n\n
+      // `
+
+      // fs.appendFile("log.txt", output, function (err) {
+      //   if (err) throw err;
+      //   console.log(output);
+      // });
+    } else {
+      
+      var URL = "http://www.omdbapi.com/?t=" + defaultMovie + "&y=&plot=short&apikey=trilogy";
+
+      request(URL, function (err, response, body){
+        handleRequest(body);
       });
     }
 
+  
   });
 }
 
