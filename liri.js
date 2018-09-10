@@ -47,6 +47,7 @@ function whatAreWeDoing(action, parameter) {
   };
 }
 
+//'venue' is causing issue
 function concertThis(parameter) {
 
 
@@ -112,6 +113,7 @@ function spotifyThis(searchSong) {
   )
 }
 
+//default to "mr.nobody" is not functioning correctly
 function movieThis(parameter) {
 
   //does not work
@@ -154,8 +156,6 @@ function movieThis(parameter) {
   });
 }
 
-
-
 function doWhatItSays() {
   fs.readFile('random.txt', 'utf8', function (err, data) {
     if (err) {
@@ -163,14 +163,14 @@ function doWhatItSays() {
     }
     else {
    
-    //   data = data.replace(`"`, "");
-    //   data = data.replace(`,`, "");
+      // var array = data.replace(`""`, "");
+      // array = data.replace(`,`, "");
 
     var array = data.split(',');
     console.log(array);
     action = array[0];
     parameter = array[1];
-    whatAreWeDoing();
+    whatAreWeDoing(action, parameter);
       
 
     }
