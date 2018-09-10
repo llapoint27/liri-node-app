@@ -36,13 +36,13 @@ function whatAreWeDoing(action, parameter) {
       doWhatItSays(parameter);
       break;
 
-    //if user does not input any command, default instructions will run
-    // default: console.log(
-    //   "\n" + "please type one of the following commands:" + "\n" + "\n" + "concert-this: 'any band'" + "\n" +
-    //   "spotify-this-song: 'any song'" + "\n" +
-    //   "movie-this: 'any movie'" + "\n" +
-    //   "do-what-it-says");
-    //   break;
+    // if user does not input any command, default instructions will run
+    default: console.log(
+      "\n" + "please type one of the following commands:" + "\n" + "\n" + "concert-this: 'any band'" + "\n" +
+      "spotify-this-song: 'any song'" + "\n" +
+      "movie-this: 'any movie'" + "\n" +
+      "do-what-it-says");
+      break;
 
   };
 }
