@@ -2,7 +2,6 @@ require("dotenv").config();
 
 
 var moment = require('moment');
-var cmd=require('node-cmd');
 var keys = require("./keys.js");
 var request = require("request");
 var fs = require("fs");
@@ -15,7 +14,7 @@ var spotify = new Spotify({
 var action = process.argv[2];
 var parameter = process.argv.slice(3).join(' ');
 
-//Switch statement in a function where you can pass in an action and it will take care of rest.
+//Switch statement in a function where you can pass in an action and it will take care of rest. We pass in action and parameter, the varibles are defined above. 
 whatAreWeDoing(action, parameter);
 
 function whatAreWeDoing(action, parameter) {
