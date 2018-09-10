@@ -1,15 +1,11 @@
 require("dotenv").config();
 
-//bandsintown API date of event format
-var moment = require('moment');
-// moment().format();
 
-//accessing keys file
+var moment = require('moment');
+var cmd=require('node-cmd');
 var keys = require("./keys.js");
 var request = require("request");
-//npm module used to read random.txt file
 var fs = require("fs");
-//npm module to access Spotify API
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify({
   id: keys.spotify.id,
@@ -17,7 +13,6 @@ var spotify = new Spotify({
 });
 
 var action = process.argv[2];
-
 var parameter = process.argv.slice(3).join(' ');
 
 //Switch statement in a function where you can pass in an action and it will take care of rest.
@@ -37,17 +32,17 @@ function whatAreWeDoing(action, parameter) {
       movieThis(parameter);
       break;
 
-    case "do-what-it-says":
+    case "do-what-it-says": 
       doWhatItSays(parameter);
       break;
 
     //if user does not input any command, default instructions will run
-    default: console.log(
-      "\n" + "please type one of the following commands:" + "\n" + "\n" + "concert-this: 'any band'" + "\n" +
-      "spotify-this-song: 'any song'" + "\n" +
-      "movie-this: 'any movie'" + "\n" +
-      "do-what-it-says");
-      break;
+    // default: console.log(
+    //   "\n" + "please type one of the following commands:" + "\n" + "\n" + "concert-this: 'any band'" + "\n" +
+    //   "spotify-this-song: 'any song'" + "\n" +
+    //   "movie-this: 'any movie'" + "\n" +
+    //   "do-what-it-says");
+    //   break;
 
   };
 }
@@ -119,12 +114,15 @@ function spotifyThis(searchSong) {
 
 function movieThis(parameter) {
 
-
+  //does not work
+  var findMovie;
   if (parameter === undefined) {
-     
-  }
+    findMovie = "Mr. Nobody";
+  } else {
+    findMovie = parameter;
+  };
 
-  var URL = "http://www.omdbapi.com/?t=" + parameter + "&y=&plot=short&apikey=trilogy";
+  var URL = "http://www.omdbapi.com/?t=" + findMovie + "&y=&plot=short&apikey=trilogy";
   console.log(URL);
   request(URL, function (err, response, body) {
 
@@ -132,16 +130,14 @@ function movieThis(parameter) {
 
       var data = JSON.parse(body);
 
-
-
       var output =
       
       `
       Movie Info:
       Movie Title: ${data.Title}
       Release Year: ${data.Year}
-      IMDB Rating: ${data.imbdRating}
-      Rotten Tomatoes Rating: ${data}
+      IMDB Rating: ${data.Ratings[0].Value}
+      Rotten Tomatoes Rating: ${data.Ratings[1].Value}
       Country: ${data.Country}
       Language: ${data.Language}
       Plot: ${data.Plot}
@@ -163,15 +159,19 @@ function movieThis(parameter) {
 function doWhatItSays() {
   fs.readFile('random.txt', 'utf8', function (err, data) {
     if (err) {
-      console.error(err);
+      console.error("Sorry, there's an error: " + err);
     }
     else {
-      console.log(data);
-      console.log(data.split(',')[0]);
-      var song = data.split(',')[1];
-      console.log(song);
-      console.log(song.split().pop());
-      console.log(song.split().unShift());
+   
+    //   data = data.replace(`"`, "");
+    //   data = data.replace(`,`, "");
+
+    var array = data.split(',');
+    console.log(array);
+    action = array[0];
+    parameter = array[1];
+    whatAreWeDoing();
+      
 
     }
   });

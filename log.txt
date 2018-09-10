@@ -1,0 +1,57 @@
+
+      Movie Info:
+      Movie Title: undefined
+      Release Year: undefined
+      IMDB Rating: undefined
+      Rotten Tomatoes Rating: [object Object]
+      Country: undefined
+      Language: undefined
+      Plot: undefined
+      Actors: undefined
+      
+------------------------------------------
+
+
+      
+      Movie Info:
+      Movie Title: undefined
+      Release Year: undefined
+      IMDB Rating: undefined
+      Rotten Tomatoes Rating: [object Object]
+      Country: undefined
+      Language: undefined
+      Plot: undefined
+      Actors: undefined
+      
+------------------------------------------
+
+
+      
+      Movie Info:
+      Movie Title: undefined
+      Release Year: undefined
+      IMDB Rating: undefined
+      Rotten Tomatoes Rating: [object Object]
+      Country: undefined
+      Language: undefined
+      Plot: undefined
+      Actors: undefined
+      
+------------------------------------------
+
+
+      
+      Movie Info:
+      Movie Title: The Matrix
+      Release Year: 1999
+      IMDB Rating: undefined
+      Rotten Tomatoes Rating: [object Object]
+      Country: USA
+      Language: English
+      Plot: A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.
+      Actors: Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss, Hugo Weaving
+      
+------------------------------------------
+
+
+      
